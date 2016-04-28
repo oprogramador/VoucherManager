@@ -4,6 +4,7 @@
 *.swp
 
 # npm
+bower_components
 node_modules
 *.log
 *.gz
