@@ -13,14 +13,15 @@ router.get('/generate/create/:n/:amount', function(req, res, next) {
   var amount = req.param('amount');
   var serieHash = randomstring.generate();
   MongoClient.connect('mongodb://localhost:27017/VoucherManager', function(err, db) {
-    var vouchers  = db.collection('vouchers');
-    var indexes = [];
-    for(var i = 0; i < n; i++) {
-      var record = {amount: amount, serieHash: serieHash};
-      vouchers.save(record);
-      indexes.push(record._id);
+    if(!err) {
+      var vouchers  = db.collection('vouchers');
+      var indexes = [];
+      for(var i = 0; i < n; i++) {
+        var record = {amount: amount, serieHash: serieHash};
+        vouchers.save(record);
+        indexes.push(record._id);
+      }
     }
-    //res.json(indexes);
   });
   res.json({serieHash: serieHash});
 });
