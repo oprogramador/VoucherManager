@@ -7,13 +7,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/generate/create/:n/:amount', function(req, res, next) {
-  var n = req.param('n');
-  var amount = req.param('amount');
+  var n = req.params['n'];
+  var amount = req.params['amount'];
   voucherRepository.save(res, n, amount);
 });
 
 router.get('/generate/getAll/:serieHash', function(req, res, next) {
-  var serieHash = req.param('serieHash');
+  var serieHash = req.params['serieHash'];
   voucherRepository.getAll(res, serieHash);
 });
 
