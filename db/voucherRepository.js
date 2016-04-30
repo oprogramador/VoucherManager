@@ -2,6 +2,7 @@ var voucherRepository = {};
 var randomstring = require('randomstring');
 var connector = require('./connector.js');
 var userRepository = require('./userRepository');
+var mongo = require('mongodb');
 
 voucherRepository.save = function(res, username, password, n, amount) {
   userRepository.verify(username, password, function(result) {
@@ -38,6 +39,29 @@ voucherRepository.getAll = function(res, username, password, serieHash) {
               cursor.toArray(function(err, data) {
                 res.json(data);    
               });
+            } else {
+              res.error('error with db');
+            }
+          });
+        } else {
+          res.error('error with db');
+        }
+      });
+    } else {
+      res.error('invalid user credentials');
+    }
+  });
+}
+
+voucherRepository.get = function(res, username, password, id) {
+  userRepository.verify(username, password, function(result) {
+    if(result) {
+      connector.connect(function(err, db) {
+        if(!err) {
+          var vouchers  = db.collection('vouchers');
+          vouchers.findOne({_id: new mongo.ObjectId(id)}, function(err, record) {
+            if(!err) {
+              res.json(record);    
             } else {
               res.error('error with db');
             }
