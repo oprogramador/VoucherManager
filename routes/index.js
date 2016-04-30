@@ -38,7 +38,7 @@ router.get('/generate/getAll/:serieHash', function(req, res, next) {
     var result = vouchers.find({serieHash: serieHash}, function(err, cursor) {
       if(!err) {
         cursor.toArray(function(err, data) {
-          res.json(data);   
+          res.json(data);
         });
       }
     });
