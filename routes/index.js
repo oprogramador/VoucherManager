@@ -20,11 +20,11 @@ router.get('/generate/create/:n/:amount', function(req, res, next) {
         vouchers.save(record);
         indexes.push(record._id);
       }
+      res.json({serieHash: serieHash});
     } else {
       res.send('error with db');
     }
   });
-  res.json({serieHash: serieHash});
 });
 
 router.get('/generate/getAll/:serieHash', function(req, res, next) {
