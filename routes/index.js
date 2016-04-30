@@ -27,6 +27,8 @@ router.get('/generate/create/:n/:amount', function(req, res, next) {
         vouchers.save(record);
         indexes.push(record._id);
       }
+    } else {
+      res.send('error with db');
     }
   });
   res.json({serieHash: serieHash});
@@ -38,8 +40,12 @@ router.get('/generate/getAll/:serieHash', function(req, res, next) {
     var result = vouchers.findOne({serieHash: serieHash}, function(err, cursor) {
       if(!err) {
         res.json(cursor);
+      } else {
+        res.send('error with db');
       }
     });
+  } else {
+    res.send('error with db');
   }
 });
 
