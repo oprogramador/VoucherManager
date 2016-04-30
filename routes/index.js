@@ -3,6 +3,9 @@ var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
 var randomstring = require('randomstring');
 
+var dbUser = process.env['voucher_manager_db_user'];
+var dbPassword = process.env['voucher_manager_db_password'];
+
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'VoucherManager' });
 });
@@ -11,7 +14,7 @@ router.get('/generate/create/:n/:amount', function(req, res, next) {
   var n = req.param('n');
   var amount = req.param('amount');
   var serieHash = randomstring.generate();
-  MongoClient.connect('mongodb://localhost:27017/VoucherManager', function(err, db) {
+  MongoClient.connect('mongodb://'+dbUser+':'+dbPassword+'@ds011732.mlab.com:11732/voucher-manager', function(err, db) {
     if(!err) {
       var vouchers  = db.collection('vouchers');
       var indexes = [];
@@ -29,12 +32,14 @@ router.get('/generate/create/:n/:amount', function(req, res, next) {
 
 router.get('/generate/getAll/:serieHash', function(req, res, next) {
   var serieHash = req.param('serieHash');
-  MongoClient.connect('mongodb://localhost:27017/VoucherManager', function(err, db) {
+  MongoClient.connect('mongodb://'+dbUser+':'+dbPassword+'@ds011732.mlab.com:11732/voucher-manager', function(err, db) {
     if(!err) {
       var vouchers  = db.collection('vouchers');
-      var result = vouchers.findOne({serieHash: serieHash}, function(err, cursor) {
+      var result = vouchers.find({serieHash: serieHash}, function(err, cursor) {
         if(!err) {
-          res.json(cursor);
+          cursor.toArray(function(err, data) {
+            res.json(data);    
+          });
         } else {
           res.send('error with db');
         }
