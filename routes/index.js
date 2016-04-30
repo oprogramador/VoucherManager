@@ -35,11 +35,9 @@ router.get('/generate/create/:n/:amount', function(req, res, next) {
 router.get('/generate/getAll/:serieHash', function(req, res, next) {
   var serieHash = req.param('serieHash');
   if(vouchers) {
-    var result = vouchers.find({serieHash: serieHash}, function(err, cursor) {
+    var result = vouchers.findOne({serieHash: serieHash}, function(err, cursor) {
       if(!err) {
-        cursor.toArray(function(err, data) {
-          res.json(data);
-        });
+        res.json(cursor);
       }
     });
   }
