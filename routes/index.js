@@ -33,11 +33,11 @@ router.get('/generate/getAll/:serieHash', function(req, res, next) {
     if(!err) {
       var vouchers  = db.collection('vouchers');
       var result = vouchers.findOne({serieHash: serieHash}, function(err, cursor) {
-      if(!err) {
-        res.json(cursor);
-      } else {
-        res.send('error with db');
-      }
+        if(!err) {
+          res.json(cursor);
+        } else {
+          res.send('error with db');
+        }
       });
     } else {
       res.send('error with db');
