@@ -27,4 +27,9 @@ router.get('/generate/get/:params', function(req, res, next) {
   voucherRepository.get(dbResponseAdapter.create(res), params);
 });
 
+router.get('/generate/use/:id', function(req, res, next) {
+  var id = req.params['id'];
+  voucherRepository.use(dbResponseAdapter.create(res), id);
+});
+
 module.exports = router;
