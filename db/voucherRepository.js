@@ -92,6 +92,10 @@ voucherRepository.use = function(res, id) {
         if(!err) {
           if(record) {
             if(voucherValidator.validateVoucher(record)) {
+              if(record.maxTimes) {
+                record.maxTimes--;
+                vouchers.save(record);
+              }
               res.json({success: true, amount: record.amount, percent: record.percent});
             } else {
               res.json({success: false, msg: 'voucher not valid'});
