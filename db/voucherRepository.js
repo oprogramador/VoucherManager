@@ -4,16 +4,16 @@ var connector = require('./connector.js');
 var userRepository = require('./userRepository');
 var mongo = require('mongodb');
 
-voucherRepository.save = function(res, username, password, n, amount) {
-  userRepository.verify(username, password, function(result) {
+voucherRepository.save = function(res, params) {
+  userRepository.verify(params.username, params.password, function(result) {
     if(result) {
       connector.connect(function(err, db) {
         if(!err) {
           var vouchers  = db.collection('vouchers');
           var indexes = [];
           var serieHash = randomstring.generate();
-          for(var i = 0; i < n; i++) {
-            var record = {amount: amount, serieHash: serieHash};
+          for(var i = 0; i < params.n; i++) {
+            var record = {amount: params.amount, serieHash: serieHash};
             vouchers.save(record);
             indexes.push(record._id);
           }
@@ -28,13 +28,13 @@ voucherRepository.save = function(res, username, password, n, amount) {
   });
 }
 
-voucherRepository.getAll = function(res, username, password, serieHash) {
-  userRepository.verify(username, password, function(result) {
+voucherRepository.getAll = function(res, params) {
+  userRepository.verify(params.username, params.password, function(result) {
     if(result) {
       connector.connect(function(err, db) {
         if(!err) {
           var vouchers  = db.collection('vouchers');
-          vouchers.find({serieHash: serieHash}, function(err, cursor) {
+          vouchers.find({serieHash: params.serieHash}, function(err, cursor) {
             if(!err) {
               cursor.toArray(function(err, data) {
                 res.json(data);    
@@ -53,15 +53,15 @@ voucherRepository.getAll = function(res, username, password, serieHash) {
   });
 }
 
-voucherRepository.get = function(res, username, password, id) {
-  userRepository.verify(username, password, function(result) {
+voucherRepository.get = function(res, params) {
+  userRepository.verify(params.username, params.password, function(result) {
     if(result) {
       connector.connect(function(err, db) {
         if(!err) {
           var vouchers  = db.collection('vouchers');
-          vouchers.findOne({_id: new mongo.ObjectId(id)}, function(err, record) {
+          vouchers.findOne({_id: new mongo.ObjectId(params.id)}, function(err, record) {
             if(!err) {
-              res.json(record);    
+              res.json(record);
             } else {
               res.error('error with db');
             }
