@@ -2,6 +2,7 @@
 .directory
 *~
 *.swp
+*.swo
 
 # npm
 bower_components

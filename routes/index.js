@@ -4,11 +4,11 @@ var voucherRepository = require('../db/voucherRepository.js');
 var dbResponseAdapter = require('../db_response/dbResponseAdapter.js');
 var voucherValidator = require('../validator/voucherValidator.js');
 
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'VoucherManager' });
-});
+	router.get('*', function(req, res) {
+		res.sendfile('./public/index.html');
+	});
 
-router.get('/generate/create/:params', function(req, res, next) {
+router.post('/generate/create/:params', function(req, res, next) {
   var params = JSON.parse(req.params['params']);
   if(!voucherValidator.validateNumber(params['n'])) {
     res.json({error: true, msg: 'invalid number'});   
@@ -17,17 +17,17 @@ router.get('/generate/create/:params', function(req, res, next) {
   }
 });
 
-router.get('/generate/getAll/:params', function(req, res, next) {
+router.post('/generate/getAll/:params', function(req, res, next) {
   var params = JSON.parse(req.params['params']);
   voucherRepository.getAll(dbResponseAdapter.create(res), params);
 });
 
-router.get('/generate/get/:params', function(req, res, next) {
+router.post('/generate/get/:params', function(req, res, next) {
   var params = JSON.parse(req.params['params']);
   voucherRepository.get(dbResponseAdapter.create(res), params);
 });
 
-router.get('/generate/use/:id', function(req, res, next) {
+router.post('/generate/use/:id', function(req, res, next) {
   var id = req.params['id'];
   voucherRepository.use(dbResponseAdapter.create(res), id);
 });
