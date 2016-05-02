@@ -1,1 +1,1 @@
-angular.module('sampleApp', ['ngRoute', 'appRoutes', 'MainCtrl', 'MacBookCtrl', 'IPadCtrl', 'IPhoneCtrl']);
+angular.module('VoucherManager', ['ngRoute', 'appRoutes', 'MainCtrl', 'MacBookCtrl', 'IPadCtrl', 'IPhoneCtrl']);
