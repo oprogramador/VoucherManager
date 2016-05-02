@@ -1,8 +1,16 @@
 angular.module('VoucherManager').factory('ProductService', function() {
   return {
-    decorateScope: function(superScope) {
+    decorateScope: function(superScope, ngDialog) {
       superScope.price = superScope.normalPrice;
       superScope.voucherStatus = 'not submitted';
+      superScope.buy = function(scope) {
+        ngDialog.open({
+          template: '<div>Congratulations.</div><div>Thank you for the shopping.</div>',
+          plain: true
+        });
+        superScope.price = superScope.normalPrice;
+        superScope.voucherStatus = 'not submitted';
+      }
       superScope.getVoucher = function(scope) {
         scope.voucherStatus = 'loading';
         var value = superScope.voucherForm.voucher.$modelValue;
