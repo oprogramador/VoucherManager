@@ -3,9 +3,17 @@
     <p>price: {{ price }}€</p>
     <p>voucher status: {{ voucherStatus }}</p>
     <form name="voucherForm" ng-submit="getVoucher($parent)" ng-controller="IPhoneController">
-        <input placeholder="voucher" name="voucher" ng-model="voucher"/>
-        <button type="submit">apply voucher</button>
+        <table width="100%">
+            <tr width="70%">
+                <td width="50%">
+                    <input class="form-control" placeholder="voucher" name="voucher" ng-model="voucher"/>
+                </td>
+                <td width="30%">
+                    <button style="width:80%" class="btn btn-success" type="submit">apply voucher</button>
+                </td>
+            </tr>
+        </table>
     </form>
-    <button ng-click="buy($parent)">buy</button>
+    <button type="button" class="btn btn-primary" ng-click="buy($parent)">buy</button>
 </div>
 
