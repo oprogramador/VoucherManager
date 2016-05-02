@@ -13,13 +13,14 @@ voucherRepository.save = function(res, params) {
           var vouchers  = db.collection('vouchers');
           var indexes = [];
           var serieHash = randomstring.generate();
+          var validTo = params.validTo ? new Date(params.validTo) : undefined;
           for(var i = 0; i < params.n; i++) {
             var record = {
               id: params.prefix + randomstring.generate(),
               amount: params.amount,
               percent: params.percent,
               maxTimes: params.maxTimes,
-              validTo: new Date(params.validTo),
+              validTo: validTo,
               serieHash: serieHash,
             };
             vouchers.save(record);
